@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Windows_Phone_Silverlight.Json
 {
-    class OtteluRootObject
+    class MatchRootObject
     {
         public int Id { get; set; }
         public object Round { get; set; }
         public int RoundNumber { get; set; }
-        public string MatchDate { get; set; }
+        public DateTime MatchDate { get; set; }
         public HomeTeam HomeTeam { get; set; }
         public AwayTeam AwayTeam { get; set; }
         public int HomeGoals { get; set; }

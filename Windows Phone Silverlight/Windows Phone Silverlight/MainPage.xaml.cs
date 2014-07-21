@@ -3,8 +3,11 @@ using System.Linq;
 using Microsoft.Phone.Controls;
 using Coding4Fun.Toolkit.Net;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using Windows_Phone_Silverlight.Json;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
+using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace Windows_Phone_Silverlight
 {
@@ -13,7 +16,7 @@ namespace Windows_Phone_Silverlight
     /// </summary>
     public partial class MainPage : PhoneApplicationPage
     {
-        private List<OtteluRootObject> ottelut;
+        private ObservableCollection<MatchRootObject> matches = new ObservableCollection<MatchRootObject>();
         private Uri ottelutUrl = new Uri("http://adafyvlstorage.blob.core.windows.net/2014/finland/veikkausliiga/matches");
 
         /// <summary>
@@ -22,13 +25,19 @@ namespace Windows_Phone_Silverlight
         public MainPage()
         {
             InitializeComponent();
-            LataaOttelut();
+            DownloadMatches();
+            Loaded += MainPage_Loaded;
+        }
+
+        void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            MatchesListBox.ItemsSource = matches;
         }
 
         /// <summary>
         /// Lataa ja purkaa gzipin serveriltä. Alustaa tapahtuma käsittelijän odottamaan, että lataus loppuu.
         /// </summary>
-        private async void LataaOttelut()
+        private async void DownloadMatches()
         {
             Coding4Fun.Toolkit.Net.GzipWebClient gZipWebClient = new GzipWebClient();
             gZipWebClient.DownloadStringAsync(ottelutUrl);
@@ -41,8 +50,11 @@ namespace Windows_Phone_Silverlight
         /// </summary>
         void gZipWebClient_DownloadStringCompleted(object sender, System.Net.DownloadStringCompletedEventArgs e)
         {
+            List<Json.MatchRootObject> downloadedMatches = new List<MatchRootObject>();
             if (e.Result != null)
-                ottelut = JsonConvert.DeserializeObject<List<Json.OtteluRootObject>>(e.Result);
+                downloadedMatches = JsonConvert.DeserializeObject<List<Json.MatchRootObject>>(e.Result);
+            foreach (MatchRootObject match in downloadedMatches)
+                matches.Add(match);
         }
     }
 }

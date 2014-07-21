@@ -95,7 +95,7 @@
     </Compile>
     <Compile Include="Json\AwayTeam.cs" />
     <Compile Include="Json\HomeTeam.cs" />
-    <Compile Include="Json\OtteluRootObject.cs" />
+    <Compile Include="Json\MatchRootObject.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
