@@ -59,7 +59,7 @@ namespace Windows_Phone_Silverlight
                 return;
             }
             List<Json.MatchRootObject> downloadedMatches = new List<Json.MatchRootObject>(JsonConvert.DeserializeObject<List<Json.MatchRootObject>>(e.Result).OrderByDescending
-                (x => x.MatchDate).ToArray());
+                (x => x.MatchDate).Where(x => x.MatchDate <= DateTime.Now).ToArray());
             foreach (MatchRootObject match in downloadedMatches)
                 matches.Add(match);
             BusyIndicator.IsRunning = false;
