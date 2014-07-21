@@ -29,6 +29,9 @@ namespace Windows_Phone_Silverlight
             Loaded += MainPage_Loaded;
         }
 
+        /// <summary>
+        /// Alustetaan itemsource MatchesListboxille, kun sivu on ladattu kokonaan.
+        /// </summary>
         void MainPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             MatchesListBox.ItemsSource = matches;
@@ -46,15 +49,24 @@ namespace Windows_Phone_Silverlight
 
         /// <summary>
         /// Kun otteluiden lataus saadaan suoritettua, tämä metodi herätetään ja se suorittaa Json
-        /// converttauksen, jos tulos ei ole null.
+        /// converttauksen, jos tulos ei ole null. Lopuksi lisätään ladatut ottelut matches ObservableCollectioniin,
+        /// jotta lista päivittyy ui:n puolella.
         /// </summary>
         void gZipWebClient_DownloadStringCompleted(object sender, System.Net.DownloadStringCompletedEventArgs e)
         {
             List<Json.MatchRootObject> downloadedMatches = new List<MatchRootObject>();
             if (e.Result != null)
-                downloadedMatches = JsonConvert.DeserializeObject<List<Json.MatchRootObject>>(e.Result);
+                downloadedMatches = new List<Json.MatchRootObject>(JsonConvert.DeserializeObject<List<Json.MatchRootObject>>(e.Result).OrderByDescending(x => x.MatchDate).ToArray());
             foreach (MatchRootObject match in downloadedMatches)
                 matches.Add(match);
+        }
+
+        /// <summary>
+        /// Lataa uuden sivun, jossa näytetään tarkemmat tiedot ottelusta.
+        /// </summary>
+        private void MatchDetailsButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/MatchDetailsPage.xaml", UriKind.Relative));
         }
     }
 }
