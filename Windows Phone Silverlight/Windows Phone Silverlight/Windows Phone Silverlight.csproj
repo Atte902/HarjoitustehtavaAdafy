@@ -93,9 +93,23 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Json\AwayTeam.cs" />
-    <Compile Include="Json\HomeTeam.cs" />
-    <Compile Include="Json\MatchRootObject.cs" />
+    <Compile Include="MatchDetailsJson\AwayTeam.cs" />
+    <Compile Include="MatchDetailsJson\HomeTeam.cs" />
+    <Compile Include="MatchDetailsJson\Line.cs" />
+    <Compile Include="MatchDetailsJson\Match.cs" />
+    <Compile Include="MatchDetailsJson\MatchAction.cs" />
+    <Compile Include="MatchDetailsJson\MatchDetailsRootObject.cs" />
+    <Compile Include="MatchDetailsJson\MatchEvent.cs" />
+    <Compile Include="MatchDetailsJson\News.cs" />
+    <Compile Include="MatchDetailsJson\Player.cs" />
+    <Compile Include="MatchDetailsJson\Team.cs" />
+    <Compile Include="MatchDetailsJson\Team2.cs" />
+    <Compile Include="MatchDetailsJson\Team3.cs" />
+    <Compile Include="MatchDetailsJson\TeamStatsLast10.cs" />
+    <Compile Include="MatchDetailsJson\TeamStatsLast5.cs" />
+    <Compile Include="MatchListJson\AwayTeam.cs" />
+    <Compile Include="MatchListJson\HomeTeam.cs" />
+    <Compile Include="MatchListJson\MatchRootObject.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -172,6 +186,7 @@
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -21,40 +21,6 @@
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
-    <phone:PhoneApplicationPage.Resources>
-        <Style x:Key="MatchesListboxStyle" TargetType="telerikPrimitives:RadDataBoundListBoxItem">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="telerikPrimitives:RadDataBoundListBox">
-                        <Border x:Name="LayRoot" BorderBrush="White" BorderThickness="1" Visibility="Collapsed">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="MouseOver"/>
-                                    <VisualState x:Name="Disabled"></VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="SelectionStates">
-                                    <VisualState x:Name="Unselected"/>
-                                    <VisualState x:Name="Selected">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayRoot"
-                                                                           Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"></DiscreteObjectKeyFrame>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Grid>
-                                <ContentControl></ContentControl>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </phone:PhoneApplicationPage.Resources>
-
     <Grid x:Name="LayoutRoot" Background="LightSkyBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -92,13 +58,15 @@
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
             <TextBlock x:Name="MatchResultTextBlock" Text="Ottelutulokset" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
             <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" Text="Klikkaa ottelua nähdäksesi tuloksen"></TextBlock>
+            <telerikPrimitives:ItemCheckBox Content="asd"  IsChecked="true"></telerikPrimitives:ItemCheckBox>
         </StackPanel>
 
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <telerikPrimitives:RadBusyIndicator Name="BusyIndicator" IsRunning="True" Content="Ladataan otteluita" ></telerikPrimitives:RadBusyIndicator>
             <telerikPrimitives:RadDataBoundListBox x:Name="MatchesListBox" HorizontalAlignment="Stretch"
                                                    HorizontalContentAlignment="Center"
                                                    ItemsSource="{Binding Source=matches}"
-                                                   >
+                                                   EmptyContent="">
             	<telerikPrimitives:RadDataBoundListBox.Resources>
             		<Style x:Key="RadDataBoundListBoxItemStyle1" TargetType="telerikPrimitives:RadDataBoundListBoxItem">
             			<Setter Property="Background" Value="Transparent"/>
