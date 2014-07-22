@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 using Coding4Fun.Toolkit.Net;
 using Newtonsoft.Json;
 using Windows_Phone_Silverlight.MatchDetailsJson;
+using System.Threading.Tasks;
+using System.Windows.Threading;
+using System.Diagnostics;
+using System.Net.Http;
+using AdvancedREI.Net.Http.Compression;
 
 namespace Windows_Phone_Silverlight
 {
@@ -17,7 +18,8 @@ namespace Windows_Phone_Silverlight
     {
         private string matchId;
         private string detailsUrl = "http://adafyvlstorage.blob.core.windows.net/2014/finland/veikkausliiga/matches/"; //muista käyttää id:tä lopussa
-        private MatchDetailsRootObject Details = new MatchDetailsRootObject();
+        private MatchDetailsRootObject details = new MatchDetailsRootObject();
+
         public MatchDetailsPage()
         {
             InitializeComponent();
@@ -25,22 +27,10 @@ namespace Windows_Phone_Silverlight
 
         private async void DownloadMatchDetails()
         {
-            Coding4Fun.Toolkit.Net.GzipWebClient gZipWebClient = new GzipWebClient();
-            gZipWebClient.DownloadStringAsync(new Uri(detailsUrl + matchId));
-            gZipWebClient.DownloadStringCompleted += gZipWebClient_DownloadStringCompleted;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void gZipWebClient_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                //log
-                return;
-            }
-            Details = JsonConvert.DeserializeObject<MatchDetailsRootObject>(e.Result);
+            HttpClient httpClient = new HttpClient(new CompressedHttpClientHandler());
+            httpClient.Timeout = TimeSpan.FromSeconds(10);
+            string result = await httpClient.GetStringAsync(new Uri(detailsUrl + matchId));
+            details = JsonConvert.DeserializeObject<MatchDetailsRootObject>(result);
         }
 
         /// <summary>

@@ -39,11 +39,11 @@ namespace Windows_Phone_Silverlight
         /// <summary>
         /// Lataa ja purkaa gzipin serveriltä. Alustaa tapahtuma käsittelijän odottamaan, että lataus loppuu.
         /// </summary>
-        private async void DownloadMatches()
+        private void DownloadMatches()
         {
             Coding4Fun.Toolkit.Net.GzipWebClient gZipWebClient = new GzipWebClient();
             gZipWebClient.DownloadStringAsync(ottelutUrl);
-            gZipWebClient.DownloadStringCompleted += gZipWebClient_DownloadStringCompleted;
+            gZipWebClient.DownloadStringCompleted += GZipWebClientDownloadStringCompleted;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Windows_Phone_Silverlight
         /// converttauksen, jos tulos ei ole null. Lopuksi lisätään ladatut ottelut matches ObservableCollectioniin,
         /// jotta lista päivittyy ui:n puolella.
         /// </summary>
-        void gZipWebClient_DownloadStringCompleted(object sender, System.Net.DownloadStringCompletedEventArgs e)
+        void GZipWebClientDownloadStringCompleted(object sender, System.Net.DownloadStringCompletedEventArgs e)
         {
             if (e.Error != null)
             {
