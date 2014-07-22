@@ -11,24 +11,36 @@ using System.Windows.Media.Imaging;
 
 namespace Windows_Phone_Silverlight
 {
+    /// <summary>
+    /// Sivulla esitetään matsin tarkemmat tiedot, jotka ladataan serveriltä.
+    /// </summary>
     public partial class MatchDetailsPage : PhoneApplicationPage
     {
         private string matchId;
         private string detailsUrl = "http://adafyvlstorage.blob.core.windows.net/2014/finland/veikkausliiga/matches/"; //muista käyttää id:tä lopussa
         private MatchDetailsRootObject details = new MatchDetailsRootObject();
+        private const int TimeOutTime = 15; //Seconds
 
+        /// <summary>
+        /// Yksinkertainen constructori.
+        /// </summary>
         public MatchDetailsPage()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Ladataan matsin tarkemmat tiedot serveriltä käyttäen httpclienttiä ja
+        /// gzipin purkuun compressedhttpclienthandleriä. Virheen sattuessa käyttäjälle
+        /// ilmoitetaan siitä messageboxilla. Lopuksi latausikoni pois.
+        /// </summary>
         private async void DownloadMatchDetails()
         {
             BusyIndicator.IsRunning = true;
             try
             {
                 HttpClient httpClient = new HttpClient(new CompressedHttpClientHandler());
-                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                httpClient.Timeout = TimeSpan.FromSeconds(TimeOutTime);
                 string result = await httpClient.GetStringAsync(new Uri(detailsUrl + matchId));
                 details = JsonConvert.DeserializeObject<MatchDetailsRootObject>(result);
                 SetDetails();

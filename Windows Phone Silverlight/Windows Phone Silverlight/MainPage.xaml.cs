@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using AdvancedREI.Net.Http.Compression;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Media;
 
 namespace Windows_Phone_Silverlight
 {
@@ -17,8 +19,9 @@ namespace Windows_Phone_Silverlight
     {
         private ObservableCollection<MatchRootObject> matches = new ObservableCollection<MatchRootObject>();
         private Uri ottelutUrl = new Uri("http://adafyvlstorage.blob.core.windows.net/2014/finland/veikkausliiga/matches");
+        private Uri settingsPageUri = new Uri("/SettingsPage.xaml", UriKind.Relative);
         private string matchDetailsPageUri = "/MatchDetailsPage.xaml"; // Muista lisätä match id.
-
+        private const int TimeOutTime = 15; //Seconds
         /// <summary>
         /// Lataa suoraan ottelut serveriltä initializoituaan ensin komponentit.
         /// </summary>
@@ -46,13 +49,14 @@ namespace Windows_Phone_Silverlight
         {
             BusyIndicator.IsRunning = true;
             HttpClient httpClient = new HttpClient(new CompressedHttpClientHandler());
-            httpClient.Timeout = TimeSpan.FromSeconds(10);
+            httpClient.Timeout = TimeSpan.FromSeconds(TimeOutTime);
             try
             {
                 string result = await httpClient.GetStringAsync(ottelutUrl);
                 ObservableCollection<MatchRootObject> downloadedMatches = new ObservableCollection<MatchRootObject>
                         (JsonConvert.DeserializeObject<ObservableCollection<MatchRootObject>>(result).OrderByDescending
                         (x => x.MatchDate).Where(x => x.MatchDate <= DateTime.Now).ToArray()); // Järjestää niin että ylhäällä on uusimmat ja sitten ottaa vain ne, jotka on jo pelattu
+                matches.Clear();
                 foreach (MatchRootObject match in downloadedMatches)
                     matches.Add(match);
             }
