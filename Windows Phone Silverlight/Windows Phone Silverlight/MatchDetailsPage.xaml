@@ -6,15 +6,17 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" x:Name="phoneApplicationPage"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    >
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="LightSkyBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -27,7 +29,65 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-
+            <telerikPrimitives:RadBusyIndicator Name="BusyIndicator" IsRunning="True"></telerikPrimitives:RadBusyIndicator>
+            <Button Name="ReloadButton" Click="ReloadButton_Click" IsEnabled="True" Content="Yritä uudelleen" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Visibility="Collapsed"></Button>
+            <Grid Name="TeamsGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Name="MatchDateTextBlock" FontSize="20" HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="3"></TextBlock>
+                <Image Grid.Row="1" Grid.Column="0" Name="HomeTeamLogo" Height="150" Width="150"></Image>
+                <Image Grid.Row="1" Grid.Column="2" Name="AwayTeamLogo" Height="150" Width="150"></Image>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Name="ResultTextBlock" FontSize="50" Grid.Column="1" Grid.Row="1"></TextBlock>
+                <TextBlock HorizontalAlignment="Center" Name="HomeTeamNameTextBlock" FontSize="30" Grid.Row="2" Grid.Column="0"></TextBlock>
+                <TextBlock HorizontalAlignment="Center" Name="AwayTeamNameTextBlock" FontSize="30" Grid.Row="2" Grid.Column="2"></TextBlock>
+                <Grid Grid.Row="3" Grid.ColumnSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Stretch" Margin="10,20,10,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="5,0" Grid.Column="0" FontSize="20" TextWrapping="Wrap" Text="Aika"></TextBlock>
+                        <TextBlock Grid.Column="1" FontSize="20" TextWrapping="Wrap" HorizontalAlignment="Center" Text="Mitä"></TextBlock>
+                        <TextBlock Grid.Column="2" FontSize="20" TextWrapping="Wrap" HorizontalAlignment="Center" Text="Pelaaja"></TextBlock>
+                        <TextBlock Grid.Column="3" FontSize="20" TextWrapping="Wrap" HorizontalAlignment="Center" Text="Joukkue"></TextBlock>
+                </Grid>
+                <telerikPrimitives:RadDataBoundListBox Name="MatchActionsListBox" EmptyContent="" Grid.Row="1"
+                                                           BorderBrush="White" BorderThickness="1" Margin="0,0,0,5">
+                        <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch" Margin="10,20">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Margin="20,0" Grid.Column="0" FontSize="20" TextWrapping="Wrap" Text="{Binding Minute}"></TextBlock>
+                                    <TextBlock Grid.Column="1" FontSize="20" TextWrapping="Wrap" Text="{Binding Description}"></TextBlock>
+                                    <TextBlock Grid.Column="2" FontSize="20" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{Binding PlayerName}"></TextBlock>
+                                    <TextBlock Grid.Column="3" FontSize="20" TextWrapping="Wrap" HorizontalAlignment="Center" Text="{Binding TeamName}"></TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                    </telerikPrimitives:RadDataBoundListBox>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 

@@ -17,7 +17,7 @@
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="LightBlue">
-            <shell:ApplicationBarIconButton x:Name="AppbarSettingsButton" IconUri="/Images/appbar_button1.png" Text="Asetukset"/>
+            <shell:ApplicationBarIconButton x:Name="AppbarSettingsButton" IconUri="/Assets/feature.settings.png" Text="Asetukset"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
@@ -78,7 +78,7 @@
             			<Setter Property="Template">
             				<Setter.Value>
             					<ControlTemplate TargetType="telerikPrimitives:RadDataBoundListBoxItem">
-            						<Border x:Name="LayoutRoot" BorderThickness="1">
+            						<Border x:Name="LayoutRoot" BorderThickness="1" Background="Transparent">
                                         <Border.BorderBrush>
                                             <SolidColorBrush x:Name="BorderBrush" Color="Transparent">
                                             </SolidColorBrush>
@@ -446,6 +446,8 @@
                     </DataTemplate>
                 </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
             </telerikPrimitives:RadDataBoundListBox>
+            <Button Name="ReloadButton" Click="ReloadButton_Click" IsEnabled="True" Content="Yritä uudelleen" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Visibility="Collapsed"></Button>
         </Grid>
 
     </Grid>
